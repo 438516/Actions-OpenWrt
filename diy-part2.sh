@@ -7,7 +7,7 @@
 #============================================================
 #移除不用软件包
 rm -rf feeds/luci/applications/luci-app-dockerman
-#rm -rf package/lean/luci-app-wrtbwmon
+rm -rf package/lean/luci-app-wrtbwmon
 rm -rf feeds/packages/net/smartdns
 rm -rf feeds/luci/applications/luci-app-smartdns
 rm -fr feeds/luci/themes/luci-theme-design
@@ -16,8 +16,8 @@ rm -rf feeds/packages/net/ddns-go
 
 # 克隆 kenzok8仓库
 git clone --depth=1 https://github.com/kenzok8/openwrt-packages.git kenzok8-packages
-cp -rf kenzok8-packages/smartdns package/smartdns
-cp -rf kenzok8-packages/luci-app-smartdns package/luci-app-smartdns
+#cp -rf kenzok8-packages/smartdns package/smartdns
+#cp -rf kenzok8-packages/luci-app-smartdns package/luci-app-smartdns
 #cp -rf kenzok8-packages/luci-theme-argon package/luci-theme-argon
 #cp -rf kenzok8-packages/ddns-go package/ddns-go
 #cp -rf kenzok8-packages/gost package/gost
@@ -29,8 +29,8 @@ cp -rf kenzok8-packages/luci-app-smartdns package/luci-app-smartdns
 #cp -rf small-package/v2ray-geodata package/v2ray-geodata
 
 #文件助手
-#git clone --depth=1 https://github.com/sxml/luci-app-fileassistant.git package/luci-app-fileassistant
-#cp -rf kenzok8-packages/luci-app-fileassistant package/luci-app-fileassistant
+git clone --depth=1 https://github.com/sxml/luci-app-fileassistant.git package/luci-app-fileassistant
+cp -rf kenzok8-packages/luci-app-fileassistant package/luci-app-fileassistant
 
 # 克隆 fw876 仓库
 git clone --depth=1 -b main https://github.com/fw876/helloworld.git
@@ -77,35 +77,35 @@ cp -rf openwrt-passwall/luci-app-passwall package/luci-app-passwall
 #rm -rf openwrt-passwall
 
 #passwall2
-git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall2.git
-cp -rf openwrt-passwall2/luci-app-passwall2 package/luci-app-passwall2
+#git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall2.git
+#cp -rf openwrt-passwall2/luci-app-passwall2 package/luci-app-passwall2
 #rm -rf openwrt-passwall2
 
 #解析
 git clone --depth=1 https://github.com/jerrykuku/lua-maxminddb.git package/lua-maxminddb
 
 #添加luci-app-amlogic
-git clone --depth=1 https://github.com/ophub/luci-app-amlogic.git
-cp -rf luci-app-amlogic/luci-app-amlogic package/luci-app-amlogic
+#git clone --depth=1 https://github.com/ophub/luci-app-amlogic.git
+#cp -rf luci-app-amlogic/luci-app-amlogic package/luci-app-amlogic
 #rm -rf luci-app-amlogic
 #修改晶晨宝盒默认配置
 # 1.设置OpenWrt 文件的下载仓库
-sed -i "s|https.*/OpenWrt|https://github.com/sxml/Actions-OpenWrt|g" package/luci-app-amlogic/root/etc/config/amlogic
+#sed -i "s|https.*/OpenWrt|https://github.com/sxml/Actions-OpenWrt|g" package/luci-app-amlogic/root/etc/config/amlogic
 # 2.设置 Releases 里 Tags 的关键字
-sed -i "s|ARMv8|ARMv8|g" package/luci-app-amlogic/root/etc/config/amlogic
+#sed -i "s|ARMv8|ARMv8|g" package/luci-app-amlogic/root/etc/config/amlogic
 # 3.设置 Releases 里 OpenWrt 文件的后缀
-sed -i "s|.img.gz|.img.gz|g" package/luci-app-amlogic/root/etc/config/amlogic
+#sed -i "s|.img.gz|.img.gz|g" package/luci-app-amlogic/root/etc/config/amlogic
 # 4.设置 OpenWrt 内核的下载路径
 #sed -i "s|opt/kernel|BuildARMv8|g" package/luci-app-amlogic/root/etc/config/amlogic
-sed -i "s|http.*/library|https://github.com/breakings/OpenWrt/tree/main/opt/kernel|g" package/luci-app-amlogic/root/etc/config/amlogic
+#sed -i "s|http.*/library|https://github.com/breakings/OpenWrt/tree/main/opt/kernel|g" package/luci-app-amlogic/root/etc/config/amlogic
 
 # themes 主题
 #git clone --depth=1 https://github.com/Leo-Jo-My/luci-theme-opentomcat.git package/luci-theme-opentomcat
-#git clone --depth=1 https://github.com/thinktip/luci-theme-neobird.git package/luci-theme-neobird
+git clone --depth=1 https://github.com/thinktip/luci-theme-neobird.git package/luci-theme-neobird
 #git clone --depth=1 https://github.com/gngpp/luci-theme-design.git package/luci-theme-design
 #git clone --depth=1 https://github.com/gngpp/luci-app-design-config.git package/luci-app-design-config
-git clone --depth=1 https://github.com/sxml/luci-theme-design.git package/luci-theme-design
-git clone --depth=1 https://github.com/sxml/luci-app-design-config.git package/luci-app-design-config
+#git clone --depth=1 https://github.com/sxml/luci-theme-design.git package/luci-theme-design
+#git clone --depth=1 https://github.com/sxml/luci-app-design-config.git package/luci-app-design-config
 
 #mosdns
 rm -rf feeds/packages/net/mosdns
@@ -116,9 +116,9 @@ git clone -b v5-lua https://github.com/sbwml/luci-app-mosdns package/mosdns
 
 #添加ddns-go 动态域名解析
 #git clone --depth=1 https://github.com/sirpdboy/luci-app-ddns-go.git package/ddns-go
-git clone --depth=1 https://github.com/sirpdboy/luci-app-ddns-go.git
-cp -rf luci-app-ddns-go/ddns-go package/ddns-go
-cp -rf luci-app-ddns-go/luci-app-ddns-go package/luci-app-ddns-go
+#git clone --depth=1 https://github.com/sirpdboy/luci-app-ddns-go.git
+#cp -rf luci-app-ddns-go/ddns-go package/ddns-go
+#cp -rf luci-app-ddns-go/luci-app-ddns-go package/luci-app-ddns-go
 
 #文件浏览器
 git clone --depth=1 https://github.com/sxml/luci-app-filebrowser.git package/luci-app-filebrowser
