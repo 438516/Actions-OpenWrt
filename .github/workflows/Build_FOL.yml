@@ -13,9 +13,9 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: aarch64/ARMv8_FOL.config
-  DIY_P1_SH: diy-part1.sh
+  CONFIG_FILE: aarch64/SSHCONFIG.config
   DIY_P2_SH: diy-part2.sh
+  DIY_P1_SH: diy-part1.sh
   TZ: Asia/Shanghai
   FILE_NAME: Build
   PRODUCT_NAME: Build_FOL
@@ -110,7 +110,34 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-        sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generate
+        # 0-设置主机名
+        sed -i "s/hostname='OpenWrt'/hostname='N4505'/g" package/base-files/files/bin/config_generate
+        
+        # 1-设置默认主题
+        sed -i 's/bootstrap/argon/g' ./feeds/luci/collections/luci/Makefile
+
+        # 2-设置管理地址
+        sed -i 's/192.168.1.1/192.168.123.220/g' package/base-files/files/bin/config_generate
+
+        # 3-编译内核版本
+        sed -i 's/KERNEL_PATCHVER:=6.1/KERNEL_PATCHVER:=6.6/g' ./target/linux/x86/Makefile
+
+        # 4-设置密码为空
+        sed -i '/CYXluq4wUazHjmCDBCqXF/d' package/lean/default-settings/files/zzz-default-settings
+
+        # 5-修改时间格式
+        sed -i 's/os.date()/os.date("%Y-%m-%d %H:%M:%S")/g' package/lean/autocore/files/*/index.htm
+
+        # 6-添加固件日期
+        sed -i 's/IMG_PREFIX:=/IMG_PREFIX:=$(BUILD_DATE_PREFIX)-/g' ./include/image.mk
+        sed -i '/DTS_DIR:=$(LINUX_DIR)/a\BUILD_DATE_PREFIX := $(shell date +'%F')' ./include/image.mk
+
+        # 7-修正硬件信息
+        sed -i 's/${g}.*/${a}${b}${c}${d}${e}${f}${hydrid}/g' package/lean/autocore/files/x86/autocore
+
+        # 8-增固件连接数
+        sed -i '/customized in this file/a net.netfilter.nf_conntrack_max=165535' package/base-files/files/etc/sysctl.conf
+        sed -i 's/192.168.1.1/192.168.123.1/g' package/base-files/files/bin/config_generate
         sed -i 's/OpenWrt/MRG AutoBuild ${{ env.DATE1 }} @ OpenWrt/g' package/lean/default-settings/files/zzz-default-settings
         
     - name: 下载软件包
@@ -130,7 +157,7 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 || make -j1 V=s
+        make -j$(nproc) || make -j4 || make -j4 V=s
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
         echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
