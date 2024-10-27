@@ -15,6 +15,7 @@ env:
   CONFIG_FILE: aarch64/SSHCONFIG.config
   #CONFIG_FILE: aarch64/ARMv8_SF.config   
   DIY_P2_SH: diy-part2.sh
+  DIY_P1_SH: diy-part1.sh
   SSH_ACTIONS: true
   UPLOAD_CONFIG: true
   DELETE_ARTIFACTS: true   # 删除旧的工作流程运行和工件
